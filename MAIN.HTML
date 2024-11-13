@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunny Prince - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Resetting default styles and setting box-sizing */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styling */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      line-height: 1.6;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      line-height: 1.6;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    /* Centering the content vertically and horizontally */
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      position: relative;
+      flex-grow: 1;
+    }
+
+    /* Background Video styling */
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      z-index: -1;
+    }
+
+    /* Name Section - Positioned at the top */
+    .name-section {
+      font-size: 4rem;
+      font-weight: 600;
+      letter-spacing: -1px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 0.5s;
+      margin-bottom: 20px;
+    }
+
+    /* Main Info Section */
+    .info-section {
+      font-size: 1.2rem;
+      color: #ccc;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1s;
+      margin-bottom: 30px;
+    }
+
+    /* Repo Section */
+    .repo-section {
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-top: 50px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1.5s;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Interests Section */
+    .interests-section {
+      font-size: 1rem;
+      color: #ccc;
+      opacity: 0;
+      animation: fadeIn 1s forwards 2s;
+      margin-top: 50px;
+    }
+
+    /* Credits and Social Section at the bottom */
+    .footer-section {
+      font-size: 0.9rem;
+      color: #aaa;
+      opacity: 0;
+      animation: fadeIn 1s forwards 2.5s;
+      margin-top: 50px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+
+    .footer-section a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: #ff6347;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Scaling for Responsiveness */
+    @media (max-width: 768px) {
+      .name-section {
+        font-size: 3rem;
+      }
+
+      .info-section {
+        font-size: 1.1rem;
+      }
+
+      .repo-section {
+        font-size: 1rem;
+      }
+
+      .interests-section {
+        font-size: 1rem;
+      }
+
+      .footer-section {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .name-section {
+        font-size: 2.5rem;
+      }
+
+      .info-section {
+        font-size: 1rem;
+      }
+
+      .repo-section {
+        font-size: 0.9rem;
+      }
+
+      .interests-section {
+        font-size: 1rem;
+      }
+
+      .footer-section {
+        font-size: 0.7rem;
+      }
+    }
+
+    /* Highlight for recently updated repos */
+    .updated-recently {
+      color: #ff6347;
+      text-shadow: 0 0 10px rgba(255, 99, 71, 0.8), 0 0 20px rgba(255, 99, 71, 0.6), 0 0 30px rgba(255, 99, 71, 0.4);
+    }
+
+    /* Notification Style */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      display: none;
+      opacity: 0;
+      animation: fadeInOut 3s forwards;
+      z-index: 1000;
+    }
+
+    /* Fade In and Out Animation */
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* Glow effect on repo links */
+    .repo-link {
+      text-decoration: none;
+      color: #fff;
+      transition: text-shadow 0.3s ease;
+    }
+
+    .repo-link:hover {
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.6), 0 0 50px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Contrasting Glow for hover */
+    .repo-link:hover {
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(0, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Container -->
+  <div class="container">
+    <video autoplay loop muted>
+      <source src="assets/VIDEOBACKGROUND2.mp4" type="video/mp4">
+    </video>
+
+    <!-- Name Section at the top -->
+    <div class="name-section">
+      Sunny Prince
+    </div>
+
+    <!-- Important Info Section -->
+    <div class="info-section">
+      <p>Computer Science and Software Engineering Student at Plymouth University</p>
+    </div>
+
+    <!-- GitHub Repos Section -->
+    <div class="repo-section" id="repo-list">
+      Loading repositories...
+    </div>
+
+    <!-- Interests Section -->
+    <div class="interests-section">
+      <p>Passionate about Machine Learning, Software Development, and Gaming</p>
+    </div>
+  </div>
+
+  <!-- Credits and Social Section at the bottom -->
+  <div class="footer-section">
+    <p>Designed by Sunny Prince</p>
+    <div>
+      <a href="https://github.com/Blurryface-WRD" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/sunny-prince" target="_blank">LinkedIn</a>
+      <a href="https://twitter.com/BlurryfaceWRD" target="_blank">Twitter</a>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">Repo status updating...</div>
+
+  <script>
+    // Function to fetch repositories from GitHub
+    async function fetchGitHubRepos() {
+      const response = await fetch('https://api.github.com/users/Blurryface-WRD/repos');
+      const repos = await response.json();
+      const repoList = document.getElementById('repo-list');
+      const notification = document.getElementById('notification');
+
+      // Display notification
+      notification.style.display = 'block';
+      notification.style.opacity = 1;
+
+      // Clear previous repo list
+      repoList.innerHTML = '';
+
+      repos.forEach(repo => {
+        // Create the repo link
+        const repoLink = document.createElement('a');
+        repoLink.href = repo.html_url;
+        repoLink.classList.add('repo-link');
+        repoLink.target = '_blank';
+        repoLink.textContent = repo.name;
+
+        // Add the last updated timestamp
+        const updatedDate = new Date(repo.updated_at);
+        const formattedDate = updatedDate.toLocaleDateString('en-GB', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+
+        // Append to the repo section
+        const repoItem = document.createElement('div');
+        repoItem.style.marginBottom = '10px';
+        repoItem.appendChild(repoLink);
+
+        // Show "Updated on" with the timestamp
+        const timestamp = document.createElement('span');
+        timestamp.style.fontSize = '0.8rem';
+        timestamp.style.color = '#aaa';
+        timestamp.style.display = 'block';
+        timestamp.textContent = `Updated on ${formattedDate}`;
+        
+        // Highlight recently updated repos
+        if (new Date() - updatedDate < 7 * 24 * 60 * 60 * 1000) {
+          timestamp.classList.add('updated-recently');
+        }
+
+        repoItem.appendChild(timestamp);
+        repoList.appendChild(repoItem);
+
+        // Implement reverse typewriter effect
+        typeWriterEffect(timestamp, `Updated on ${formattedDate}`);
+      });
+
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        notification.style.opacity = 0;
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 3000);
+      }, 3000);
+    }
+
+    // Typewriter effect function
+    function typeWriterEffect(element, newText) {
+      const currentText = element.textContent;
+      let i = 0;
+
+      // Clear the text
+      const eraseInterval = setInterval(() => {
+        element.textContent = currentText.substring(0, currentText.length - i);
+        if (i === currentText.length) {
+          clearInterval(eraseInterval);
+          writeText(newText, element);
+        }
+        i++;
+      }, 50);
+    }
+
+    // Write new text using typewriter effect
+    function writeText(newText, element) {
+      let i = 0;
+      const writeInterval = setInterval(() => {
+        element.textContent = `Updated on ${newText.substring(0, i + 1)}`;
+        if (i === newText.length - 1) {
+          clearInterval(writeInterval);
+        }
+        i++;
+      }, 100);
+    }
+
+    // Fetch repos every 10 seconds
+    setInterval(fetchGitHubRepos, 10000);
+
+    // Initial fetch on page load
+    window.onload = fetchGitHubRepos;
+  </script>
+</body>
+</html>
+<!-- Back to Top Button -->
+<button onclick="scrollToTop()" id="backToTopBtn" title="Go to top">Top</button>
+
+<script>
+  // Scroll to Top Function
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Show or Hide the Back to Top Button
+  window.onscroll = function() {
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      backToTopBtn.style.display = 'block';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
+  };
+</script>
+
+<style>
+  /* Back to Top Button Styling */
+  #backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+  }
+
+  #backToTopBtn:hover {
+    background-color: #555;
+  }
+</style>
