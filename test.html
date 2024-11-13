@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunny <3</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f4f4f9;
+    }
+
+    #dynamicText {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+  <script>
+    // Function to create a random variation of Sunny <3
+    function getRandomStyleText() {
+      const originalText = "Sunny <3";
+      const variationChars = {
+        'S': ['S', '5'],
+        'u': ['u', 'U'],
+        'n': ['n', 'N', '9'],
+        'y': ['y', 'Y'],
+        ' ': [' ', '_'],
+        '<': ['<', '(', '{'],
+        '3': ['3', 'E'],
+      };
+
+      let styledText = '';
+
+      // Loop through each character in the original text and randomly replace it
+      for (let i = 0; i < originalText.length; i++) {
+        const char = originalText[i];
+        if (variationChars[char]) {
+          // Randomly pick a character variation
+          styledText += variationChars[char][Math.floor(Math.random() * variationChars[char].length)];
+        } else {
+          // If no variation exists, use the original character
+          styledText += char;
+        }
+      }
+
+      return styledText;
+    }
+
+    // Function to simulate typing effect on title
+    function typeWriterEffectOnTitle() {
+      const numIterations = 20; // Number of iterations for the effect
+      let count = 0;
+
+      const interval = setInterval(() => {
+        if (count < numIterations) {
+          const styledText = getRandomStyleText();
+          document.title = styledText;  // Change the title dynamically
+          count++;
+        } else {
+          // Set the title to the final correct version once the effect ends
+          document.title = "Sunny <3";
+          clearInterval(interval);
+        }
+      }, 300); // Change this value to adjust the typing speed
+    }
+
+    // Call the typeWriterEffect function when the page loads
+    window.onload = function () {
+      typeWriterEffectOnTitle();  // Start the typing effect on the title when the page loads
+    };
+  </script>
+</head>
+<body>
+  <h1>Dynamic Title Styling</h1>
+  <p>The title will change with random variations until it shows "Sunny <3".</p>
+</body>
+</html>
