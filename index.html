@@ -3,326 +3,651 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunny <3 </title>
+  <title>Sunny | CS & SWE</title>
+  <meta name="description" content="Computer Science and Software Engineering Portfolio">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Resetting default styles and setting box-sizing */
+    :root {
+      --primary: #ff6347;
+      --primary-dark: #e55339;
+      --text: #ffffff;
+      --text-secondary: #cccccc;
+      --bg: #121212;
+      --bg-light: #1e1e1e;
+      --card-bg: rgba(30, 30, 30, 0.7);
+      --success: #4CAF50;
+      --error: #F44336;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Body styling */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #121212;
-      color: #fff;
-      line-height: 1.6;
-      height: 100%;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: center;
+    html {
+      scroll-behavior: smooth;
     }
 
-    /* Centering the content vertically and horizontally */
-    .container {
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-color: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Smooth Intro Section */
+    .intro-section {
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      padding: 20px;
       position: relative;
-      flex-grow: 1;
+      overflow: hidden;
+      text-align: center;
+      padding: 2rem;
     }
 
-    /* Background Video styling */
-    video {
+    .intro-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .intro-name {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .intro-title {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .scroll-indicator {
       position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      opacity: 0;
+      transition: opacity 1s ease 1s;
+    }
+
+    .intro-section.active .scroll-indicator {
+      opacity: 1;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-20px) translateX(-50%); }
+      60% { transform: translateY(-10px) translateX(-50%); }
+    }
+
+    /* Video Background */
+    .video-container {
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      filter: blur(8px);
       z-index: -1;
+      overflow: hidden;
     }
 
-    /* Name Section - Positioned at the top */
-    .name-section {
-      font-size: 4rem;
+    .video-background {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      filter: blur(8px) brightness(0.7);
+      transition: filter 1.5s ease, transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    /* Main Content */
+    .content-wrapper {
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(1px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Projects Section */
+    .projects-container {
+      max-width: 800px;
+      width: 100%;
+      margin: 4rem auto;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .projects-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
       font-weight: 600;
-      letter-spacing: -1px;
-      opacity: 0;
-      animation: fadeIn 1s forwards 0.5s;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    /* Main Info Section */
-    .info-section {
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.8s ease;
+    }
+
+    .projects-container.visible .section-title::after {
+      transform: scaleX(1);
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--primary);
+      transition: height 0.4s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      border-color: var(--primary);
+    }
+
+    .project-card:hover::before {
+      height: 100%;
+    }
+
+    .project-title {
       font-size: 1.2rem;
-      color: #ccc;
-      font-weight: 400;
-      opacity: 0;
-      animation: fadeIn 1s forwards 1s;
-      margin-bottom: 30px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    /* Repo Section */
-    .repo-section {
-      font-size: 1.1rem;
-      color: #ddd;
-      margin-top: 50px;
-      opacity: 0;
-      animation: fadeIn 1s forwards 1.5s;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
-    }
-
-    /* Interests Section */
-    .interests-section {
-      font-size: 1rem;
-      color: #ccc;
-      opacity: 0;
-      animation: fadeIn 1s forwards 2s;
-      margin-top: 50px;
-    }
-
-    /* Credits and Social Section at the bottom */
-    .footer-section {
+    .project-description {
+      color: var(--text-secondary);
       font-size: 0.9rem;
-      color: #aaa;
-      opacity: 0;
-      animation: fadeIn 1s forwards 2.5s;
-      margin-top: 50px;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .project-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 2rem;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      z-index: 10;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      padding: 0.2rem 0;
+    }
+
+    .footer-link::after {
+      content: '';
       position: absolute;
       bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--text);
+      transition: var(--transition);
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+    }
+
+    .footer-link:hover::after {
       width: 100%;
-      padding: 20px 0;
-      text-align: center;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.4);
     }
 
-    .footer-section a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 15px;
-      transition: color 0.3s;
+    /* Loading Spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
     }
 
-    .footer-section a:hover {
-      color: #ff6347;
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
-    /* Fade-in animation */
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
-    /* Scaling for Responsiveness */
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .name-section {
-        font-size: 3rem;
+      .intro-name {
+        font-size: clamp(3rem, 10vw, 6rem);
       }
-
-      .info-section {
-        font-size: 1.1rem;
+      
+      .intro-title {
+        font-size: clamp(1.2rem, 3.5vw, 2rem);
       }
-
-      .repo-section {
-        font-size: 1rem;
-      }
-
-      .interests-section {
-        font-size: 1rem;
-      }
-
-      .footer-section {
-        font-size: 0.8rem;
+      
+      .projects-container {
+        padding: 0 1rem;
       }
     }
 
-    @media (max-width: 480px) {
-      .name-section {
-        font-size: 2.5rem;
-      }
-
-      .info-section {
-        font-size: 1rem;
-      }
-
-      .repo-section {
-        font-size: 0.9rem;
-      }
-
-      .interests-section {
-        font-size: 1rem;
-      }
-
-      .footer-section {
-        font-size: 0.7rem;
-      }
+    /* Animation Classes */
+    .scrolled-out {
+      transform: translateY(-100px) scale(0.9) !important;
+      opacity: 0 !important;
     }
 
-    /* Highlight for recently updated repos */
-    .updated-recently {
-      color: #ff6347;
-      text-shadow: 0 0 10px rgba(255, 99, 71, 0.8), 0 0 20px rgba(255, 99, 71, 0.6), 0 0 30px rgba(255, 99, 71, 0.4);
-    }
-
-    /* Notification Style */
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 1rem;
-      display: none;
-      opacity: 0;
-      animation: fadeInOut 3s forwards;
-      z-index: 1000;
-    }
-
-    /* Fade In and Out Animation */
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-
-    /* Glow effect on repo links */
-    .repo-link {
-      text-decoration: none;
-      color: #fff;
-      transition: text-shadow 0.3s ease;
-    }
-
-    .repo-link:hover {
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.6), 0 0 50px rgba(255, 255, 255, 0.5);
-    }
-
-    /* Contrasting Glow for hover */
-    .repo-link:hover {
-      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(0, 255, 255, 0.4);
+    .scrolled-in {
+      transform: translateY(0) scale(1) !important;
+      opacity: 1 !important;
     }
   </style>
 </head>
 <body>
-  <!-- Main Container -->
-  <div class="container">
-    <video autoplay loop muted>
+  <!-- Smooth Intro Section -->
+  <section class="intro-section active" id="intro">
+    <div class="intro-content">
+      <h1 class="intro-name">Sunny</h1>
+      <p class="intro-title">Computer Science & Software Engineering</p>
+    </div>
+    <div class="scroll-indicator">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- Video Background -->
+  <div class="video-container">
+    <video class="video-background" autoplay loop muted playsinline>
       <source src="assets/VIDEOBACKGROUND2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
     </video>
+  </div>
 
-    <!-- Name Section at the top -->
-    <div class="name-section">
-      Sunny
-    </div>
-
-    <!-- Important Info Section -->
-    <div class="info-section">
-      <p>Computer Science and Software Engineering Student</p>
-    </div>
-
-    <!-- GitHub Repos Section -->
-    <div class="repo-section" id="repo-list">
-      Loading repositories...
-    </div>
-
-    <!-- Interests Section -->
-    <div class="interests-section">
-      <p>Passionate about Machine Learning, Software Development, and Gaming</p>
+  <!-- Main Content -->
+  <div class="content-wrapper" id="content">
+    <div class="projects-container" id="projects">
+      <h2 class="section-title">Featured Projects</h2>
+      <div id="projects-list">
+        <div class="project-card skeleton">
+          <div class="loading-spinner"></div>
+          <p>Loading projects...</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Credits and Social Section at the bottom -->
-  <div class="footer-section">
-    <p>Designed by Sunny <3 </p>
-    <div>
-      <a href="https://github.com/Shunshoq" target="_blank">github</a>
-      <a href="https://open.spotify.com/user/31ny7eyosv5abxoleloanojbl2em" target="_blank">spotify</a>
-      <a href="https://steamcommunity.com/id/bigbootyah/" target="_blank">steam</a>
+  <!-- Footer -->
+  <div class="footer">
+    <p>Digital garden of Sunny</p>
+    <div class="footer-links">
+      <a href="https://github.com/Shunshoq" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://open.spotify.com/user/31ny7eyosv5abxoleloanojbl2em" class="footer-link" target="_blank" rel="noopener noreferrer">Spotify</a>
+      <a href="https://steamcommunity.com/id/bigbootyah/" class="footer-link" target="_blank" rel="noopener noreferrer">Steam</a>
     </div>
   </div>
-
-  <!-- Notification -->
-  <div class="notification" id="notification">Repo status updating...</div>
 
   <script>
-    // Function to fetch repositories from GitHub
-    async function fetchGitHubRepos() {
-      const response = await fetch('https://api.github.com/users/Shunshoq/repos');
-      const repos = await response.json();
-      const repoList = document.getElementById('repo-list');
-      const notification = document.getElementById('notification');
+    // Configuration
+    const config = {
+      githubUsername: 'Shunshoq',
+      maxProjects: 4
+    };
 
-      // Display notification
-      notification.style.display = 'block';
-      notification.style.opacity = 1;
+    // Language colors for GitHub repos
+    const languageColors = {
+      'JavaScript': '#f1e05a',
+      'TypeScript': '#3178c6',
+      'Python': '#3572A5',
+      'Java': '#b07219',
+      'C++': '#f34b7d',
+      'Ruby': '#701516',
+      'Go': '#00ADD8',
+      'Rust': '#dea584',
+      'HTML': '#e34c26',
+      'CSS': '#563d7c',
+      'Shell': '#89e051'
+    };
 
-      // Clear previous repo list
-      repoList.innerHTML = '';
+    // DOM Elements
+    const elements = {
+      introSection: document.getElementById('intro'),
+      introName: document.querySelector('.intro-name'),
+      introTitle: document.querySelector('.intro-title'),
+      projectsContainer: document.getElementById('projects'),
+      projectsList: document.getElementById('projects-list'),
+      videoBackground: document.querySelector('.video-background')
+    };
 
-      repos.forEach(repo => {
-        // Create the repo link
-        const repoLink = document.createElement('a');
-        repoLink.href = repo.html_url;
-        repoLink.classList.add('repo-link');
-        repoLink.target = '_blank';
-        repoLink.textContent = repo.name;
+    // Initialize the application
+    function init() {
+      setupEventListeners();
+      loadProjects();
+      setupVideoBackground();
+      checkVideoLoad();
+    }
 
-        // Add the last updated timestamp
-        const updatedDate = new Date(repo.updated_at);
-        const formattedDate = updatedDate.toLocaleDateString('en-GB', {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Scroll events for intro animation
+      window.addEventListener('scroll', handleScroll);
+      
+      // Parallax effect
+      document.addEventListener('mousemove', handleParallax);
+      
+      // Window resize
+      window.addEventListener('resize', debounce(handleResize, 200));
+    }
 
-        // Append to the repo section
-        const repoItem = document.createElement('div');
-        repoItem.style.marginBottom = '10px';
-        repoItem.appendChild(repoLink);
-
-        // Show "Updated on" with the timestamp
-        const timestamp = document.createElement('span');
-        timestamp.style.fontSize = '0.8rem';
-        timestamp.style.color = '#aaa';
-        timestamp.style.display = 'block';
-        timestamp.textContent = `Updated on ${formattedDate}`;
+    // Handle scroll animations
+    function handleScroll() {
+      const scrollPosition = window.scrollY;
+      const introHeight = elements.introSection.offsetHeight;
+      
+      // Intro section scale effect
+      if (scrollPosition < introHeight) {
+        const scale = 1 - (scrollPosition / introHeight * 0.1);
+        const opacity = 1 - (scrollPosition / introHeight * 0.5);
+        const translateY = scrollPosition * 0.5;
         
-        repoItem.appendChild(timestamp);
-        repoList.appendChild(repoItem);
-      });
+        elements.introName.style.transform = `translateY(${translateY}px) scale(${scale})`;
+        elements.introName.style.opacity = opacity;
+        elements.introTitle.style.transform = `translateY(${translateY}px) scale(${scale})`;
+        elements.introTitle.style.opacity = opacity;
+        
+        // Hide intro section when scrolled past
+        if (scrollPosition > introHeight * 0.8) {
+          elements.introSection.classList.remove('active');
+        } else {
+          elements.introSection.classList.add('active');
+        }
+      }
+      
+      // Projects section fade in
+      const projectsTop = elements.projectsContainer.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (projectsTop < windowHeight * 0.75) {
+        elements.projectsContainer.classList.add('visible');
+      }
+    }
 
-      // Hide notification after 3 seconds
+    // Load projects from GitHub API with error handling
+    async function loadProjects() {
+      try {
+        showLoadingState();
+        
+        // Using GitHub's REST API v3 with authentication token
+        const response = await fetch(`https://api.github.com/users/${config.githubUsername}/repos?sort=updated&direction=desc`, {
+          headers: {
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.status}`);
+        }
+        
+        const repos = await response.json();
+        displayProjects(repos);
+      } catch (error) {
+        console.error('Failed to load projects:', error);
+        showErrorState();
+      }
+    }
+
+    // Display projects in the UI
+    function displayProjects(repos) {
+      // Filter and sort projects
+      const filteredRepos = repos
+        .filter(repo => !repo.fork && !repo.archived)
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .slice(0, config.maxProjects);
+      
+      // Clear loading state
+      elements.projectsList.innerHTML = '';
+      
+      // Display each project
+      filteredRepos.forEach(repo => {
+        const projectCard = createProjectCard(repo);
+        elements.projectsList.appendChild(projectCard);
+      });
+    }
+
+    // Create a project card element
+    function createProjectCard(repo) {
+      const updatedDate = new Date(repo.updated_at);
+      const daysAgo = Math.floor((new Date() - updatedDate) / (1000 * 60 * 60 * 24));
+      const isRecentlyUpdated = daysAgo <= 7;
+      const languageColor = repo.language ? (languageColors[repo.language] || '#aaa') : '#aaa';
+      
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="project-title">
+          <i class="fas fa-code"></i>
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a>
+          ${isRecentlyUpdated ? '<span style="color: var(--primary); font-size: 0.7rem; margin-left: 0.5rem;">UPDATED</span>' : ''}
+        </div>
+        <p class="project-description">${repo.description || 'No description provided.'}</p>
+        <div class="project-meta">
+          <span style="color: ${languageColor}">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${languageColor};margin-right:4px;"></span>
+            ${repo.language || 'Code'}
+          </span>
+          <span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
+          <span><i class="fas fa-code-branch"></i> ${repo.forks_count}</span>
+          <span><i class="fas fa-clock"></i> ${formatDate(updatedDate)}</span>
+        </div>
+      `;
+      
+      // Add click event to open project
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'A') {
+          window.open(repo.html_url, '_blank');
+        }
+      });
+      
+      return card;
+    }
+
+    // Show loading state
+    function showLoadingState() {
+      elements.projectsList.innerHTML = `
+        <div class="project-card skeleton">
+          <div class="loading-spinner"></div>
+          <p>Loading projects...</p>
+        </div>
+      `;
+    }
+
+    // Show error state
+    function showErrorState() {
+      elements.projectsList.innerHTML = `
+        <div class="project-card">
+          <p>Failed to load projects. <a href="https://github.com/${config.githubUsername}" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+        </div>
+      `;
+    }
+
+    // Set up video background
+    function setupVideoBackground() {
+      elements.videoBackground.muted = true;
+      
+      // Try to autoplay
+      const playPromise = elements.videoBackground.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Autoplay prevented:', error);
+          // Show fallback
+          elements.videoBackground.style.display = 'none';
+          document.body.style.background = 'var(--bg)';
+        });
+      }
+    }
+
+    // Check if video loaded successfully
+    function checkVideoLoad() {
       setTimeout(() => {
-        notification.style.opacity = 0;
+        if (elements.videoBackground.readyState < 3) {
+          elements.videoBackground.style.display = 'none';
+          document.body.style.background = 'var(--bg)';
+        }
       }, 3000);
     }
 
-    // Fetch repos on load
-    fetchGitHubRepos();
+    // Handle parallax effect on mouse move
+    function handleParallax(e) {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      elements.videoBackground.style.transform = `
+        translate(-50%, -50%) 
+        translate(${x * 20 - 10}px, ${y * 20 - 10}px)
+      `;
+    }
+
+    // Handle window resize
+    function handleResize() {
+      // Reset intro animations on resize
+      handleScroll();
+    }
+
+    // Utility functions
+    function formatDate(date) {
+      const daysAgo = Math.floor((new Date() - date) / (1000 * 60 * 60 * 24));
+      
+      if (daysAgo === 0) return 'today';
+      if (daysAgo === 1) return 'yesterday';
+      if (daysAgo < 7) return `${daysAgo} days ago`;
+      
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      
+      // Trigger initial scroll check
+      handleScroll();
+      
+      // Force check projects visibility after load
+      setTimeout(() => {
+        const projectsTop = elements.projectsContainer.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (projectsTop < windowHeight) {
+          elements.projectsContainer.classList.add('visible');
+        }
+      }, 500);
+    });
   </script>
 </body>
 </html>
